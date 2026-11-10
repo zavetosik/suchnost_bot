@@ -71,8 +71,7 @@ async def prompt_post(callback: CallbackQuery):
     await callback.answer()
     await bot.send_message(
         callback.from_user.id,
-        "✍️ Отправь текст или фото с подписью — быстро рассмотрим.\n\n"
-        "🕛 Работаем ежедневно до 00:00.",
+        "✍️ Отправь текст или фото с подписью — быстро рассмотрим.",
     )
 
 
