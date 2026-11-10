@@ -7,10 +7,10 @@ from aiogram.exceptions import TelegramAPIError, TelegramRetryAfter
 from aiogram.filters import Command, CommandStart
 from aiogram.filters.callback_data import CallbackData
 from aiogram.types import BufferedInputFile, CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, LinkPreviewOptions, Message
-from aiogram.utils.formatting import BlockQuote, Bold, Italic, Text, TextLink
+from aiogram.utils.formatting import Bold, Text, TextLink
 
 import database as db
-from config import TEST_TOKEN, CHANNEL_ID
+from config import TEST_TOKEN, CHANNEL_ID, PROPOSAL_URL
 from utils import is_admin, is_owner, write_logs, write_admin_logs
 
 bot = Bot(token=TEST_TOKEN)
@@ -57,15 +57,8 @@ def moderation_keyboard(post_id):
 @dp.message(CommandStart())
 async def do_start(message: Message):
     greeting = Text(
-        Bold("✦ ПРЕДЛОЖКА"), "\n\n",
-        f"Привет, {message.from_user.first_name}! 👋\n",
-        "Здесь твои мысли могут стать постом в канале.\n\n",
-        BlockQuote("Есть история, вопрос или просто мысль?\nПоделись — это может откликнуться другим."),
-        "\n\n", Bold("От идеи до публикации"), "\n",
-        "✍️ Отправь текст или фото с подписью.\n",
-        "💬 Администраторы посмотрят твой пост.\n",
-        "🔔 Бот сообщит, когда будет принято решение.\n\n",
-        Italic("Начни с пары слов. Мы уже слушаем."),
+        Bold("✍️ Пиши — быстро примем твой пост!"), "\n\n",
+        "🕛 Работаем ежедневно до ", Bold("00:00"),
     )
     keyboard = InlineKeyboardMarkup(inline_keyboard=[[
         InlineKeyboardButton(text="✍️ Предложить пост", callback_data="compose_post"),
@@ -78,8 +71,8 @@ async def prompt_post(callback: CallbackQuery):
     await callback.answer()
     await bot.send_message(
         callback.from_user.id,
-        "✍️ Отправь сюда текст или фото с подписью.\n\n"
-        "Сообщение сразу поступит на модерацию. Когда появится решение, я напишу тебе.",
+        "✍️ Отправь текст или фото с подписью — быстро рассмотрим.\n\n"
+        "🕛 Работаем ежедневно до 00:00.",
     )
 
 
@@ -349,8 +342,7 @@ async def unsupported_message(message: Message):
 
 
 async def publish_post(text, photo):
-    me = await bot.me()
-    footer = TextLink("Предложка", url=f"https://t.me/{me.username}")
+    footer = TextLink("Предложка", url=PROPOSAL_URL)
     body = (text or "").rstrip()
     content = Text(body, "\n\n", footer) if body else Text(footer)
     if photo:
