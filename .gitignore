@@ -218,3 +218,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local bot data
+bot.db
+bot.db-*
+logs.csv
+admin_logs.csv
+.DS_Store
