@@ -78,7 +78,7 @@ class PostgresTests(unittest.IsolatedAsyncioTestCase):
                         published = publications()[-1]
                         self.assertEqual(published.text, text_post[1] + "\n\nПредложка")
                         self.assertEqual(published.entities[-1].type, "text_link")
-                        self.assertEqual(published.entities[-1].url, "https://t.me/test_proposal_bot")
+                        self.assertEqual(published.entities[-1].url, "https://t.me/podzemkasaltbot")
                         self.assertIsInstance(session.requests[-2], EditMessageReplyMarkup)
                         sent = len(publications())
                         # A stale reject button must not overwrite an accepted post.
@@ -102,7 +102,7 @@ class PostgresTests(unittest.IsolatedAsyncioTestCase):
                         self.assertIsInstance(publications()[-1], SendPhoto)
                         self.assertEqual(publications()[-1].photo, "test-photo")
                         self.assertEqual(publications()[-1].caption, "Предложка")
-                        self.assertEqual(publications()[-1].caption_entities[-1].url, "https://t.me/test_proposal_bot")
+                        self.assertEqual(publications()[-1].caption_entities[-1].url, "https://t.me/podzemkasaltbot")
 
                         # Failed publication leaves the post pending and the button usable.
                         await dispatch_message(bot, user_id, "Повтор після помилки")

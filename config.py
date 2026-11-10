@@ -9,4 +9,5 @@ load_dotenv(BASE_DIR / ".env")
 
 TEST_TOKEN = os.getenv("TEST_TOKEN")
 CHANNEL_ID = os.getenv("CHANNEL_ID")
+PROPOSAL_URL = "https://t.me/podzemkasaltbot"
 DATABASE_URL = os.getenv("DATABASE_URL", "").strip()
